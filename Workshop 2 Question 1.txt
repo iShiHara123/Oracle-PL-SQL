@@ -1,0 +1,44 @@
+CREATE TABLE employees (
+    employee_id NUMBER(6) PRIMARY KEY,
+    first_name VARCHAR2(20) not null,
+    last_name VARCHAR2(20) not null,
+    salary NUMBER(10),
+    manager_id NUMBER(6)
+);
+
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (100, 'Steven', 'King', 24000, '');
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (101, 'Neena', 'Kochlar', 17000, 100);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (102, 'Lex', 'De Haan', 17000, 100);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (103, 'Alexander', 'Hunold', 9000, 102);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (104, 'Bruce', 'Ernst', 6000, 103);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (105, 'David', 'Austin', 4800, 103);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (106, 'Valli', 'Pataballa', 4800, 103);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (107, 'Diana', 'Lorentz', 4200, 103);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (108, 'Nancy', 'Greenber', 12008, 101);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (109, 'Daniel', 'Faviet', 9000, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (110, 'John', 'Chen', 8200, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (111, 'Ismael', 'Sciarra', 7700, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (112, 'Jose Manuel', 'Urman', 7800, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (113, 'Luis', 'Popp', 6900, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (114, 'Den', 'Raphaely', 11000, 100);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (115, 'Alexander', 'Khoo', 3100, 114);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (116, 'Shelli', 'Baida', 2900, 114);
+
+select * from employees;
+
+DECLARE
+v_salary       employees.salary%TYPE;
+v_manager_id   employees.manager_id%TYPE;
+v_last_name    employees.last_name%TYPE; 
+  BEGIN
+      SELECT salary, manager_id, last_name INTO v_salary, v_manager_id, v_last_name
+      FROM employees
+      WHERE manager_id = 100;
+      IF v_last_name = 'King' THEN
+       v_salary := v_salary * 0.025;
+       DBMS_OUTPUT.PUT_LINE(v_last_name || 'has an increase of ' || v_salary);
+      END IF;
+EXCEPTION
+    WHEN TOO_MANY_ROWS THEN
+     DBMS_OUTPUT.PUT_LINE ('Your SELECT statement retrieved multiple rows.');
+END;

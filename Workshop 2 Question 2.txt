@@ -1,0 +1,73 @@
+CREATE TABLE employee_location(
+    employee_id NUMBER(6) PRIMARY KEY,
+    emp_grp_location VARCHAR2(50),
+    location_id VARCHAR2(20) not null,
+    prev_emp_grp_location NUMBER(6),
+    updated_by VARCHAR(20) DEFAULT USER NOT NULL,
+    date_updated DATE DEFAULT SYSDATE NOT NULL
+);
+
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1234, '', 'MNL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1235, '', 'MNL'); 
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1236, '', 'MNL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1237, '', 'BOHOL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1238, '', 'BOHOL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1239, '', 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1240, '', 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1241, '', 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1242, '', 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1243, '', 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1244, '', 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1245, '', 'MNL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1246, '', 'DAVAO');
+commit;
+SELECT * FROM employee_location;
+SET SERVEROUTPUT ON;
+DECLARE
+  v_employee_id                employee_location.employee_id%TYPE;
+  v_emp_grp_location           employee_location.emp_grp_location%TYPE;
+  v_location_id                employee_location.location_id%TYPE;
+  v_prev_emp_grp_location      employee_location.prev_emp_grp_location%TYPE;
+BEGIN
+  UPDATE employee_location SET prev_emp_grp_location = 0;
+  IF location_id = 'MNL' THEN
+  UPDATE employee_location SET emp_grp_location = ('MNL ' || mnl_seq.NEXTVAL) WHERE location_id = 'MNL';
+  ELSIF location_id = 'BOHOL' THEN
+  UPDATE employee_location SET emp_grp_location = ('BOHOL ' || bohol_seq.NEXTVAL) WHERE location_id = 'BOHOL';
+  ELSIF location_id = 'CEBU' THEN
+  UPDATE employee_location SET emp_grp_location = ('CEBU ' || cebu_seq.NEXTVAL) WHERE location_id = 'CEBU';
+  ELSIF location_id = 'DAVAO' THEN
+  UPDATE employee_location SET emp_grp_location = ('DAVAO ' || davao_seq.NEXTVAL) WHERE location_id = 'DAVAO';
+  END IF;
+END;
+
+SELECT * FROM employee_location;
+
+drop sequence mnl_seq;
+drop sequence bohol_seq;
+drop sequence cebu_seq;
+drop sequence davao_seq;
+
+CREATE SEQUENCE mnl_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+
+CREATE SEQUENCE cebu_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+  
+CREATE SEQUENCE bohol_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+  
+CREATE SEQUENCE davao_seq
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;  

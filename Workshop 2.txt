@@ -1,0 +1,185 @@
+1. 
+
+CREATE TABLE employees (
+    employee_id NUMBER(6) PRIMARY KEY,
+    first_name VARCHAR2(20) not null,
+    last_name VARCHAR2(20) not null,
+    salary NUMBER(10),
+    manager_id NUMBER(6)
+);
+
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (100, 'Steven', 'King', 24000, '');
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (101, 'Neena', 'Kochlar', 17000, 100);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (102, 'Lex', 'De Haan', 17000, 100);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (103, 'Alexander', 'Hunold', 9000, 102);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (104, 'Bruce', 'Ernst', 6000, 103);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (105, 'David', 'Austin', 4800, 103);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (106, 'Valli', 'Pataballa', 4800, 103);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (107, 'Diana', 'Lorentz', 4200, 103);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (108, 'Nancy', 'Greenber', 12008, 101);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (109, 'Daniel', 'Faviet', 9000, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (110, 'John', 'Chen', 8200, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (111, 'Ismael', 'Sciarra', 7700, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (112, 'Jose Manuel', 'Urman', 7800, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (113, 'Luis', 'Popp', 6900, 108);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (114, 'Den', 'Raphaely', 11000, 100);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (115, 'Alexander', 'Khoo', 3100, 114);
+INSERT INTO employees (employee_id, first_name, last_name, salary, manager_id) VALUES (116, 'Shelli', 'Baida', 2900, 114);
+
+select * from employees;
+
+set serveroutput on;
+
+DECLARE
+v_salary       employees.salary%TYPE;
+v_manager_id   employees.manager_id%TYPE;
+v_employee_id  employees.employee_id%TYPE; 
+BEGIN
+ SELECT salary
+  INTO v_salary
+  FROM employees
+  WHERE manager_id = 100;
+  DBMS_OUTPUT.PUT_LINE('The employee with increase is ' || v_employee_id);
+EXCEPTION
+    WHEN TOO_MANY_ROWS THEN
+     DBMS_OUTPUT.PUT_LINE ('Your SELECT statement retrieved multiple rows.');
+END;
+
+2. 
+drop table employee_location;
+CREATE TABLE employee_location(
+    employee_id NUMBER(6) PRIMARY KEY,
+    emp_grp_location NUMBER(6),
+    location_id VARCHAR2(20) not null,
+    prev_emp_grp_location NUMBER(6),
+    updated_by VARCHAR(20) DEFAULT USER NOT NULL,
+    date_updated DATE DEFAULT SYSDATE NOT NULL
+);
+
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1234, 0, 'MNL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1235, 0, 'MNL'); 
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1236, 0, 'MNL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1237, 0, 'BOHOL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1238, 0, 'BOHOL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1239, 0, 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1240, 0, 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1241, 0, 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1242, 0, 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1243, 0, 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1244, 0, 'CEBU');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1245, 0, 'MNL');
+INSERT INTO employee_location (employee_id, emp_grp_location, location_id) VALUES (1246, 0, 'DAVAO');
+
+SELECT * FROM employee_location;
+
+SELECT CONCAT(location_id, emp_grp_location_seq.NEXTVAL)
+FROM employee_location;
+
+--sample
+CREATE SEQUENCE emp_grp_location_seq
+ START WITH 1
+ INCREMENT BY 1
+ MAXVALUE 10
+ NOCYCLE
+ NOCACHE;
+ 
+DECLARE
+ v_emp_id              employee_location.employee_id%TYPE;
+ v_emp_grp_location    employee_location.emp_grp_location%TYPE;
+BEGIN
+ UPDATE employee_location SET prev_emp_grp_location = 0;
+  RETURNING employee_id, emp_grp_location, location_id, prev_emp_grp_location, updated_by, date_updated INTO emp_first_name, emp_last_name;
+DBMS_OUTPUT.PUT_LINE( emp_first_name  || ' ' || emp_last_name);
+END;
+/
+rollback;
+drop table employees_temp;
+CREATE TABLE employees_temp AS SELECT employee_id, first_name, last_name 
+ FROM employees;
+  
+DECLARE
+seq_value   NUMBER;
+BEGIN
+ SELECT employees_seq.NEXTVAL INTO seq_value FROM dual;
+ DBMS_OUTPUT.PUT_LINE ('Initial sequence value: ' || TO_CHAR(seq_value));
+END;
+
+3. 
+
+CREATE TABLE test_order AS
+SELECT ROWNUM AS ORDER_ID,
+DBMS_RANDOM.STRING('A', 20) AS DESCRIPTION
+FROM DUAL
+CONNECT BY LEVEL <= 1000000
+
+4. 
+
+CREATE TABLE salary_commission (
+    employee_id NUMBER(6) PRIMARY KEY,
+    first_name VARCHAR2(20),
+    last_name VARCHAR2(20),
+    job_id VARCHAR2(50) references job_title(job_id),
+    salary NUMBER(10),
+    commission_pct NUMBER(2,2)
+);
+
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary) VALUES (142, 'Curtis', 'Davies', 'ST_CLERK', 31000);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary) VALUES (143, 'Randall', 'Matos', 'ST_CLERK', 2600);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary) VALUES (144, ' Peter', 'Vargas', 'ST_CLERK', 2500);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (145, ' John', 'Russell', 'SA_MAN', 1400, 0.4);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (146, 'Karen', 'Partners', 'SA_MAN', 13500, 0.3);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (147, ' ALberto', 'Errazuriz', 'SA_MAN', 1200, 0.3);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (148, 'Gerald', 'Cambrault', 'SA_MAN', 11000, 0.3);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (149, ' Eleni', 'Zlotkey', 'SA_MAN', 10500, 0.2);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (150, 'Peter', 'Tucker', 'SA_REP', 10000, 0.3);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (151, 'David', 'Bernstein', 'SA_REP', 9500, 0.25);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (152, 'Peter', 'Hall', 'SA_REP', 9000, 0.25);
+
+CREATE TABLE job_title (
+    job_id VARCHAR2(50) primary key,
+    job_title VARCHAR2(50)
+);
+
+INSERT INTO job_title (job_id, job_title) VALUES ('AD_PRES', 'President');
+INSERT INTO job_title (job_id, job_title) VALUES ('AD_VP', 'Administration Vice President');
+INSERT INTO job_title (job_id, job_title) VALUES ('AD_ASST', 'Administration Assistant');
+INSERT INTO job_title (job_id, job_title) VALUES ('FI_MGR', 'Finance Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('FI_ACCOUNT', 'Accountant');
+INSERT INTO job_title (job_id, job_title) VALUES ('AC_MGR', 'Accounting Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('AC_ACCOUNT', 'Public Accountant');
+INSERT INTO job_title (job_id, job_title) VALUES ('SA_MAN', 'Sales Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('SA_REP', 'Sales Representative');
+INSERT INTO job_title (job_id, job_title) VALUES ('PU_MAN', 'Purchasing Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('PU_CLERK', 'Purchasing Clerk');
+INSERT INTO job_title (job_id, job_title) VALUES ('ST_MAN', 'Stock Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('ST_CLERK', 'Stock Clerk');
+INSERT INTO job_title (job_id, job_title) VALUES ('SH_CLERK', 'Shipping Clerk');
+INSERT INTO job_title (job_id, job_title) VALUES ('IT_PROG', 'Programmer');
+INSERT INTO job_title (job_id, job_title) VALUES ('MK_MAN', 'Marketing Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('MK_REP', 'Marketing Representative');
+INSERT INTO job_title (job_id, job_title) VALUES ('HR_REP', 'Human Resources
+Representative');
+INSERT INTO job_title (job_id, job_title) VALUES ('PR_REP', 'Public Relations Representative');
+
+select count(job_id) programmer from job_title where job_title='Programmer';
+
+select * from salary_commission;
+select * from job_title;
+select * from employees;
+set serveroutput on
+DECLARE
+n_name       employees.first_name%TYPE;
+n_salary     employees.salary%TYPE;
+BEGIN
+SELECT first_name, SUM(salary*0.025)
+    INTO n_name || n_salary
+    FROM employees
+    WHERE manager_id=102;
+    DBMS_OUTPUT.PUT_LINE ('Employee/s with salary increase are ' || n_name);
+END;
+
+SELECT first_name 
+    FROM employees 
+    WHERE last_name = 'KING';
+
+

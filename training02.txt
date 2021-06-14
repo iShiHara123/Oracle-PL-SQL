@@ -1,0 +1,141 @@
+CREATE TABLE TEAM02 (
+    TEAM_ID NUMBER(2) primary key,
+    NAME VARCHAR2(100) unique
+);
+
+insert into TEAM02 (TEAM_ID, NAME) values(1, 'STRING MUSIC');
+insert into TEAM02 (TEAM_ID, NAME) values(2, 'HACKERS');
+insert into TEAM02 (TEAM_ID, NAME) values(3, 'SHARP SHOOTERS');
+insert into TEAM02 (TEAM_ID, NAME) values(4, 'HAMMER TIME');
+
+select * from TEAM02
+
+CREATE TABLE PLAYERS02 (
+    PLAYER_ID NUMBER(2) primary key,
+    LAST_NAME VARCHAR(100) not null,
+    FIRST_NAME VARCHAR(100) not null,
+    JERSEY_NUMBER NUMBER(2),
+    TEAM_ID NUMBER(2)
+);
+
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(1, 'JOHNSON', 'JOE', 12, 1);
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(2, 'JONES', 'BOBBY', 2, 1);
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(3, 'RODMAN', 'DENNIS', 32, 2);
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(4, 'DUNCAN', 'TIM', 22, 2);
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(5, 'BIRD', 'LARRY', 33, 3);
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(6, 'JORDAN', 'MICHAEL', 23, 3);
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(7, 'JAMES', 'LEBRON', 6, 4);
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(8, 'WEBBER', 'CHRIS', 5, 4);
+insert into PLAYERS02 (PLAYER_ID, LAST_NAME, FIRST_NAME, JERSEY_NUMBER, TEAM_ID) values(11, 'WALL', 'JOHN', 1, 4);
+
+select * from PLAYERS02
+
+CREATE TABLE INFO2 (
+    PLAYER_ID NUMBER(2),
+    HEIGHT NUMBER(5, 2) not null,
+    WEIGHT NUMBER(5, 2) not null
+);
+
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(1, 71, 180);
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(2, 58, 195);
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(3, 72, 200);
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(4, 74, 170);
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(5, 71, 182);
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(6, 72, 289);
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(7, 79, 250);
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(8, 73, 193);
+insert into INFO2 (PLAYER_ID, HEIGHT, WEIGHT) values(11, 85, 310);
+
+select * from INFO2
+
+CREATE TABLE PLAY (
+    GAME_ID NUMBER(2) primary key,
+    GAME_DATE DATE,
+    HOME_TEAM_ID NUMBER(2),
+    GUEST_TEAM_ID NUMBER(2)
+);
+
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(1, '01-MAY-2002', 1, 2);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(2, '02-MAY-2002', 3, 4);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(3, '03-MAY-2002', 1, 3);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(4, '05-MAY-2002', 2, 4);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(5, '05-MAY-2002', 1, 2);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(6, '09-MAY-2002', 3, 4);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(7, '10-MAY-2002', 2, 3);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(8, '11-MAY-2002', 1, 4);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(9, '12-MAY-2002', 2, 3);
+insert into PLAY (GAME_ID, GAME_DATE, HOME_TEAM_ID, GUEST_TEAM_ID) values(10, '15-MAY-2002', 1, 4);
+
+select * from play
+
+CREATE TABLE SCORE (
+    GAME_ID NUMBER(2),
+    TEAM_ID NUMBER(2),
+    SCORE NUMBER(3) not null,
+    WIN_LOSE CHAR(1),
+    CONSTRAINT score02_pk PRIMARY KEY (GAME_ID, TEAM_ID)
+);
+
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(1, 1, 66, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(2, 3, 78, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(3, 1, 45, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(4, 2, 56, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(5, 1, 100, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(6, 3, 67, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(7, 2, 57, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(8, 1, 98, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(9, 2, 56, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(10, 1, 46, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(1, 2, 75, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(2, 4, 46, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(3, 3, 87, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(4, 4, 99, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(5, 2, 88, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(6, 4, 77, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(7, 3, 87, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(8, 4, 56, 'L');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(9, 3, 87, 'W');
+insert into SCORE (GAME_ID, TEAM_ID, SCORE, WIN_LOSE) values(10, 4, 78, 'W');
+
+select * from score
+
+WORKSHOP 2
+
+1. SELECT ROUND(AVG(HEIGHT) , 2) AS "Avr Height", ROUND(AVG(WEIGHT) , 2) AS "Avr Weight"
+FROM INFO2;
+
+2. SELECT * FROM
+(
+Select TEAM_ID, SUM (SCORE) AS TOTAL_SCORE FROM SCORE
+GROUP BY TEAM_ID
+ORDER BY SUM (SCORE)
+desc
+)
+where rownum < 2;
+
+3. SELECT MAX( SCORE ) "Most Points" FROM SCORE
+
+4. SELECT GAME_ID, SUM(SCORE) FROM SCORE
+GROUP BY GAME_ID
+ORDER BY SUM(SCORE)
+FETCH FIRST 2 ROWS ONLY;
+
+5. SELECT * FROM ( SELECT * FROM PLAY
+ORDER BY GAME_ID);
+
+6. SELECT TEAM_ID, COUNT(*) FROM SCORE
+WHERE TEAM_ID <= 4
+GROUP BY TEAM_ID;
+
+7. SELECT GAME_ID, TEAM_ID AS "HOME TEAM", SCORE AS "HOME TEAM SCORE", TEAM_ID AS "GUEST TEAM", SCORE AS "HOME TEAM SCORE" FROM ( SELECT * FROM SCORE)
+FETCH FIRST 10 ROWS ONLY;
+
+SELECT * FROM
+(
+Select TEAM_ID, SUM (SCORE) AS TOTAL_SCORE FROM SCORE
+GROUP BY TEAM_ID
+ORDER BY SUM (SCORE)
+desc
+)
+where rownum < 2;
+

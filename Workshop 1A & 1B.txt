@@ -1,0 +1,142 @@
+WORKSHOP 1A
+
+1. 
+IF total_sales IS NULL THEN 
+    total_sales := 0; 
+END IF;
+   
+Answer:
+   
+CASE 
+WHEN total_sales IS NULL THEN
+   total_sales :=0;
+END CASE
+   
+2. Rewrite the following IF statement to get rid of unnecessary nested IFs: 
+
+IF salary < 10000 THEN 
+    bonus := 2000; 
+ELSE IF salary < 20000 THEN 
+    bonus := 1500; 
+ELSE IF salary < 40000 THEN 
+    bonus := 1000; 
+ELSE bonus := 500; 
+END IF; 
+---END IF; 
+---END IF;
+
+3. Which procedure will never be executed in this IF statement?
+
+IF (order_date > SYSDATE) THEN 
+	fill_order (order_id, 'HIGH PRIORITY'); 
+ELSIF (order_date < SYSDATE) OR (order_date = SYSDATE) THEN 
+	fill_order (order_id, 'LOW PRIORITY'); 
+ELSIF order_date <= SYSDATE THEN 
+	---queue_order_for_addtl_parts (order_id); 
+ELSIF order_total = 0 THEN 
+END IF;
+
+4. How many times does the following loop execute?
+
+BEGIN
+  FOR i IN REVERSE 12..1 LOOP
+    DBMS_OUTPUT.PUT_LINE (i);
+  END LOOP;
+END;
+/
+5. Identify the problems with (or areas for improvement in) the following loops. How would you change the loop to improve it?
+
+BEGIN
+  FOR i IN 1..76 LOOP 
+    DBMS_OUTPUT.PUT_LINE (i);
+  END LOOP;
+END;
+/
+
+6. Identify the problems with (or areas for improvement in) the following loops. How would you change the loop to improve it?
+
+DECLARE
+a_counter NUMBER :=10;
+lo_val NUMBER :=2;
+hi_val NUMBER :=5;
+BEGIN
+    FOR a_counter IN (lo_val)..(hi_val) LOOP 
+        IF a_counter > lo_val * 2 THEN 
+            hi_val := lo_val; 
+            DBMS_OUTPUT.PUT_LINE (a_counter);
+        END IF; 
+    END LOOP;
+END;
+/
+
+WORKSHOP 1B
+
+1. What statement would you remove from this block? Why?
+
+DECLARE
+CURSOR emp_cur IS
+SELECT ename, deptno, empno
+FROM emp
+WHERE sal < 2500;
+emp_rec emp_cur%ROWTYPE;
+BEGIN
+FOR emp_rec IN emp_cur
+LOOP
+give_raise (emp_rec.empno, 10000);
+END LOOP;
+
+2. What is wrong with this PL/SQL
+
+DECLARE
+string_of_5_chars VARCHAR2(5);
+BEGIN
+    string_of_5_chars := 'Steve'; --n
+    DBMS_OUTPUT.PUT_LINE (string_of_5_chars);
+END;
+/
+
+3. What is wrong with this PL/SQL
+
+DECLARE
+    CREATE OR REPLACE string_of_5_chars VARCHAR2(5);
+BEGIN
+    BEGIN
+        string_of_5_chars := 'Steven'; -- n
+        EXCEPTION
+            WHEN VALUE_ERROR THEN
+                RAISE NO_DATA_FOUND;
+            WHEN NO_DATA_FOUND THEN
+                DBMS_OUTPUT.PUT_LINE ('Inner block');
+    END;
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE ('Outer block');
+END;
+/
+
+4. What is wrong with this PL/SQL
+set serveroutput on
+DECLARE
+string_of_5_chars VARCHAR2(5);
+BEGIN
+    string_of_5_chars := 'Steve'; -- string_of_5_chars
+    BEGIN
+    string_of_5_chars := 'Steven'; --
+        EXCEPTION
+        WHEN VALUE_ERROR THEN
+            DBMS_OUTPUT.PUT_LINE ('Inner block');
+    END;
+EXCEPTION
+WHEN VALUE_ERROR THEN
+DBMS_OUTPUT.PUT_LINE ('Outer block');
+END;
+/
+
+5. Write a PL/SQL block that allows all of the following SQL DML statements to execute, even if any of the others fail:
+
+UPDATE emp SET empno = 100 
+WHERE empno > 5000; 
+DELETE FROM dept 
+WHERE deptno = 10; 
+DELETE FROM emp 
+WHERE deptno = 10;

@@ -1,0 +1,85 @@
+CREATE TABLE salary_commission (
+    employee_id NUMBER(6) PRIMARY KEY,
+    first_name VARCHAR2(20),
+    last_name VARCHAR2(20),
+    job_id VARCHAR2(50) references job_title(job_id),
+    salary NUMBER(10),
+    commission_pct NUMBER(2,2)
+);
+
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary) VALUES (142, 'Curtis', 'Davies', 'ST_CLERK', 31000);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary) VALUES (143, 'Randall', 'Matos', 'ST_CLERK', 2600);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary) VALUES (144, 'Peter', 'Vargas', 'ST_CLERK', 2500);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (145, 'John', 'Russell', 'SA_MAN', 1400, 0.4);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (146, 'Karen', 'Partners', 'SA_MAN', 13500, 0.3);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (147, 'ALberto', 'Errazuriz', 'SA_MAN', 1200, 0.3);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (148, 'Gerald', 'Cambrault', 'SA_MAN', 11000, 0.3);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (149, 'Eleni', 'Zlotkey', 'SA_MAN', 10500, 0.2);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (150, 'Peter', 'Tucker', 'SA_REP', 10000, 0.3);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (151, 'David', 'Bernstein', 'SA_REP', 9500, 0.25);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (152, 'Peter', 'Hall', 'SA_REP', 9000, 0.25);
+INSERT INTO salary_commission (employee_id, first_name, last_name, job_id, salary, commission_pct) VALUES (155, 'Peter', 'Hall', 'AD_PRES', 9000, 0.25);
+
+CREATE TABLE job_title (
+    job_id VARCHAR2(50) primary key,
+    job_title VARCHAR2(50)
+);
+
+INSERT INTO job_title (job_id, job_title) VALUES ('AD_PRES', 'President');
+INSERT INTO job_title (job_id, job_title) VALUES ('AD_VP', 'Administration Vice President');
+INSERT INTO job_title (job_id, job_title) VALUES ('AD_ASST', 'Administration Assistant');
+INSERT INTO job_title (job_id, job_title) VALUES ('FI_MGR', 'Finance Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('FI_ACCOUNT', 'Accountant');
+INSERT INTO job_title (job_id, job_title) VALUES ('AC_MGR', 'Accounting Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('AC_ACCOUNT', 'Public Accountant');
+INSERT INTO job_title (job_id, job_title) VALUES ('SA_MAN', 'Sales Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('SA_REP', 'Sales Representative');
+INSERT INTO job_title (job_id, job_title) VALUES ('PU_MAN', 'Purchasing Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('PU_CLERK', 'Purchasing Clerk');
+INSERT INTO job_title (job_id, job_title) VALUES ('ST_MAN', 'Stock Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('ST_CLERK', 'Stock Clerk');
+INSERT INTO job_title (job_id, job_title) VALUES ('SH_CLERK', 'Shipping Clerk');
+INSERT INTO job_title (job_id, job_title) VALUES ('IT_PROG', 'Programmer');
+INSERT INTO job_title (job_id, job_title) VALUES ('MK_MAN', 'Marketing Manager');
+INSERT INTO job_title (job_id, job_title) VALUES ('MK_REP', 'Marketing Representative');
+INSERT INTO job_title (job_id, job_title) VALUES ('HR_REP', 'Human Resources
+Representative');
+INSERT INTO job_title (job_id, job_title) VALUES ('PR_REP', 'Public Relations Representative');
+
+DECLARE
+v_salary           salary_commission.salary%TYPE; 
+v_commission_pct   salary_commission.commission_pct%TYPE;
+v_employee_id      salary_commission.employee_id%TYPE;
+v_new_salary       v_salary%TYPE;
+  BEGIN
+      SELECT salary, commission_pct, employee_id INTO v_salary, v_commission_pct, v_employee_id
+      FROM salary_commission
+      WHERE job_id = 'SA_MAN';  
+       IF TO_CHAR(LAST_DAY(SYSDATE), 'DAY') = 'SATURDAY' THEN
+        v_salary := v_salary + (v_salary * v_commission_pct) + (v_salary * 0.03);
+        DBMS_OUTPUT.PUT_LINE('Employee ' || v_employee_id || ' has a total salary of ' || v_new_salary);
+       END IF;
+       IF TO_CHAR(LAST_DAY(SYSDATE), 'DAY') = 'SUNDAY' THEN
+        v_salary := v_salary + (v_salary * v_commission_pct) + (v_salary * 0.03);
+        DBMS_OUTPUT.PUT_LINE('Employee ' || v_employee_id || ' has a total salary of ' || v_new_salary);
+       END IF;     
+       IF TO_CHAR(LAST_DAY(SYSDATE), 'DAY') = 'MONDAY' THEN
+         v_salary := v_salary * (v_commission_pct + 0.02);
+         DBMS_OUTPUT.PUT_LINE('Employee ' || v_employee_id || ' has a total salary of ' || v_new_salary);
+       END IF;    
+       IF TO_CHAR(LAST_DAY(SYSDATE), 'DAY') = 'WEDNESDAY' THEN
+         v_new_salary := v_salary + (v_salary * v_commission_pct) + (v_salary * 0.02);
+         DBMS_OUTPUT.PUT_LINE('Employee ' || v_employee_id || ' has a total salary of ' || v_new_salary);
+       END IF;    
+       IF TO_CHAR(LAST_DAY(SYSDATE), 'DAY') = 'THURSDAY' THEN
+         v_salary := v_salary + (v_salary * v_commission_pct) + (v_salary * 0.02);
+         DBMS_OUTPUT.PUT_LINE('Employee ' || v_employee_id || ' has a total salary of ' || v_new_salary);
+       END IF;      
+       IF TO_CHAR(LAST_DAY(SYSDATE), 'DAY') = 'FRIDAY' THEN
+         v_salary := v_salary + (v_salary * v_commission_pct) + (v_salary * 0.02);
+         DBMS_OUTPUT.PUT_LINE('Employee ' || v_employee_id || ' has a total salary of ' || v_new_salary);
+       END IF;
+EXCEPTION
+    WHEN TOO_MANY_ROWS THEN
+     DBMS_OUTPUT.PUT_LINE ('Your SELECT statement retrieved multiple rows.');
+END;
